@@ -24,11 +24,12 @@ centroids = zeros(K, n);
 %               centroid i.
 %
 % Note: You can use a for-loop over the centroids to compute this.
-%
-for i = 1:K
-	ix = find(idx == i);
-	centroids(i, :) = mean(X(ix, :));
-endfor;
+for i=1:K
+    boolVec = (idx==i);
+    XNew = boolVec' * X;
+    centroids(i,:) = ((XNew)./sum(boolVec));
+end
+
 
 
 

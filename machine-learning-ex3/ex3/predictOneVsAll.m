@@ -29,8 +29,9 @@ X = [ones(m, 1) X];
 %       are in rows, then, you can use max(A, [], 2) to obtain the max 
 %       for each row.
 %       
-hx = sigmoid(X*all_theta'); % size(hx) = (m, num_labels)
-[maxval, p] = max(hx, [], 2);
+
+[probability indices] = max(sigmoid(all_theta * X'));
+p = indices';
 
 
 

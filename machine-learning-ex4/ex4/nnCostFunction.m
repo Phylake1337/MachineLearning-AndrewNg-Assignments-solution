@@ -34,12 +34,24 @@ Theta2_grad = zeros(size(Theta2));
 % Instructions: You should complete the code by working through the
 %               following parts.
 %
-% Part 1: Feedforward the neural network and return the cost in the
+%% Part 1: Feedforward the neural network and return the cost in the
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
-%
-% Part 2: Implement the backpropagation algorithm to compute the gradients
+a1 = [ones(m,1) X];
+a2 = sigmoid(a1*Theta1');
+a2 = [ones(m,1) a2];	
+a3 = sigmoid(a2*Theta2');
+y = repmat([1:num_labels], m, 1) == repmat(y, 1, num_labels);
+J = (-1 / m) * sum(sum(y.*log(a3) + (1 - y).*log(1 - a3)));
+
+ThetaReg1 = Theta1(:,2:end);
+ThetaReg2 = Theta2(:,2:end);
+RegPart = (lambda / (2*m))*((sum(sum(ThetaReg1.^2)))+(sum(sum(ThetaReg2.^2))));
+J = J+RegPart;
+
+
+%% Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
 %         Theta2_grad, respectively. After implementing Part 2, you can check
@@ -54,7 +66,27 @@ Theta2_grad = zeros(size(Theta2));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
-% Part 3: Implement regularization with the cost function and gradients.
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
+for t=1:m
+    a_1 = a1(t,:);
+    a_2 = a2(t,:);
+    a_3 = a3(t,:);
+    yt = y(t,:);
+    d3 = a_3 - yt;
+    d2 = (Theta2' * d3') .* (a_2.*(1-a_2))';
+    Delta1 = Delta1 + d2(2:end) * a_1;
+    Delta2 = Delta2 + d3' * a_2;
+end
+Theta1_grad = Delta1 ./m + ((lambda/m)*Theta1);
+temp1 = Delta1 ./m ;
+Theta1_grad(:,1) = temp1(:,1);
+
+Theta2_grad = Delta2 ./m + ((lambda/m)*Theta2);
+temp2 = Delta2 ./m ;
+Theta2_grad(:,1) = temp2(:,1); 
+    
+%% Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
 %               backpropagation. That is, you can compute the gradients for
@@ -62,43 +94,22 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-a1 = X;
-a2 = sigmoid([ones(m, 1) a1] * Theta1');
-a3 = sigmoid([ones(m, 1) a2] * Theta2');
-hx = a3;
+%%
 
-y_old = y;
-y = zeros(m, num_labels);
 
-Del1 = zeros(hidden_layer_size, input_layer_size + 1);
-Del2 = zeros(num_labels, hidden_layer_size + 1);
 
-for i = 1:m
-	y(i, y_old(i)) = 1;
-	J += sum(-y(i, :).*log(hx(i, :)) - (1.0-y(i, :)).*log(1.0-hx(i, :)));
-	
-	delta3 = hx(i, :) - y(i, :);
-	delta2 = delta3 * Theta2 .* [1 a2(i, :).*(1.0 - a2(i, :))];
-	delta2 = delta2(2:end);
-	Del1 = Del1 + delta2' * [1 a1(i, :)];
-	Del2 = Del2 + delta3' * [1 a2(i, :)];
-endfor;
 
-J = J/m;
 
-reg_j = lambda/(2*m) * (sum(sum(Theta1(:, 2:end) .^ 2, 2)) ...
-					+ sum(sum(Theta2(:, 2:end) .^ 2, 2)));
 
-J = J + reg_j;
 
-D1 = Del1/m;
-D2 = Del2/m;
 
-reg_d1 = lambda/m * [zeros(hidden_layer_size, 1) Theta1(:, 2:end)];
-reg_d2 = lambda/m * [zeros(num_labels, 1) Theta2(:, 2:end)];
 
-Theta1_grad = D1 + reg_d1;
-Theta2_grad = D2 + reg_d2;
+
+
+
+
+
+
 
 % -------------------------------------------------------------
 

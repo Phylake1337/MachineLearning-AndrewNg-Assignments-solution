@@ -35,16 +35,19 @@ grad = zeros(size(theta));
 %           temp(1) = 0;   % because we don't add anything for j = 0  
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
-hx = sigmoid(X*theta);
-hx_y = hx - y;
 
-J = 1/m * sum(-y.*log(hx) - (1.0-y).*log(1.0-hx)) + lambda/(2*m) * sum(theta(2:end).^2);
+tempTheta = theta;
+tempTheta(1) = 0;
+g = sigmoid(X*theta);
+RegPart = (lambda/(2*m)*(sum(tempTheta.^2)));
+CostPart = -1/m * ((y' * log(g)) + ((1.-y)' * log(1.-g)));
+J = RegPart + CostPart;
+grad  = (1/m * (X' * (g-y))) + (lambda/m).*tempTheta;
 
-temp = lambda/m * theta;
-temp(1) = 0;
 
-grad = 1/m * X'*hx_y;
-grad = grad + temp;
+
+
+
 
 
 

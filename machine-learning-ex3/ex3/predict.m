@@ -19,15 +19,13 @@ p = zeros(size(X, 1), 1);
 %       function can also return the index of the max element, for more
 %       information see 'help max'. If your examples are in rows, then, you
 %       can use max(A, [], 2) to obtain the max for each row.
-%
-
-h1 = sigmoid([ones(m, 1) X] * Theta1');
-
-h2 = sigmoid([ones(m, 1) h1] * Theta2');
-
-[maxval, p] = max(h2, [], 2);
-
-
+a1 = [ones(m,1) X];
+Layer2 = Theta1 * a1';
+Layer2Sig = sigmoid(Layer2);
+Layer2Sig = [ones(1,m); Layer2Sig];
+OPlayer = sigmoid (Theta2 * Layer2Sig);
+[probability indices]  = max(OPlayer);
+p = indices'
 % =========================================================================
 
 

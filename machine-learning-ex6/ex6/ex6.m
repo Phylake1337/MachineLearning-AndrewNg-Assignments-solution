@@ -19,7 +19,6 @@
 %% Initialization
 clear ; close all; clc
 
-
 %% =============== Part 1: Loading and Visualizing Data ================
 %  We start the exercise by first loading and visualizing the dataset. 
 %  The following code will load the dataset into your environment and plot
@@ -30,7 +29,7 @@ fprintf('Loading and Visualizing Data ...\n')
 
 % Load from ex6data1: 
 % You will have X, y in your environment
-load('ex6data1.mat';
+load('ex6data1.mat');
 
 % Plot training data
 plotData(X, y);
@@ -129,7 +128,6 @@ plotData(X, y);
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
-
 %% ========== Part 7: Training SVM with RBF Kernel (Dataset 3) ==========
 
 %  This is a different dataset that you can use to experiment with. Try
@@ -144,7 +142,7 @@ load('ex6data3.mat');
 [C, sigma] = dataset3Params(X, y, Xval, yval);
 
 % Train the SVM
-model= svmTrain(X, y, 1, @(x1, x2) gaussianKernel(x1, x2, 0.1));
+model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
 visualizeBoundary(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');

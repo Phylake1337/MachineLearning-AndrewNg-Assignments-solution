@@ -8,7 +8,7 @@ function Z = projectData(X, U, K)
 
 % You need to return the following variables correctly.
 Z = zeros(size(X, 1), K);
-
+m = size(X, 1);
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the projection of the data using only the top K 
 %               eigenvectors in U (first K columns). 
@@ -16,11 +16,11 @@ Z = zeros(size(X, 1), K);
 %               eigenvector is given as follows:
 %                    x = X(i, :)';
 %                    projection_k = x' * U(:, k);
-%
-Ureduce = U(:, 1:K);
-Z = X * Ureduce;
-
-
+U_r = U(:,1:K);
+for i=1:m
+    x = X(i, :)';
+    Z(i,:)= (U_r' * x)';
+end
 % =============================================================
 
 end

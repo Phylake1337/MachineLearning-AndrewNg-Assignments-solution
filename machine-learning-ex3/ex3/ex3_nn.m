@@ -72,7 +72,6 @@ pause;
 
 %  Randomly permute examples
 rp = randperm(m);
-%rp = find((pred == y) == 0);
 
 for i = 1:m
     % Display 

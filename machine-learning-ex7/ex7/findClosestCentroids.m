@@ -6,7 +6,7 @@ function idx = findClosestCentroids(X, centroids)
 %
 
 % Set K
-K = size(centroids, 1); % 3
+K = size(centroids, 1);
 
 % You need to return the following variables correctly.
 idx = zeros(size(X,1), 1);
@@ -18,18 +18,17 @@ idx = zeros(size(X,1), 1);
 %               closest to example i. Hence, it should be a value in the 
 %               range 1..K
 %
-% Note: You can use a for-loop over the examples to compute this.
-%
-for i = 1:size(X, 1)
-	dif = X(i, :) - centroids; % 3 x 2
-	[dummy, idx(i)] = min(sum((dif*dif').*eye(K)));
-	
-endfor;
-
-
-
-
+for i=1:size(X,1)
+    value = inf;
+    valueTemp = inf;
+    for j=1:K
+        value = (norm(X(i,:) - centroids(j,:)))^2 ; 
+        if value < valueTemp
+            valueTemp = value;
+            idx(i) = j;
+        end
+    end
+end
 % =============================================================
-
 end
 

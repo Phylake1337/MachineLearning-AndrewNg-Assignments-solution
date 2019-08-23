@@ -25,16 +25,7 @@ sigma = zeros(1, size(X, 2));
 %
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
-mu = mean(X);
-sigma = std(X);
-X_norm = (X - mu) / sigma;
-%for i = 1:size(X, 1)
-%	X_norm(i, :) = X_norm(i, :) - mu;
-%end;
 
-%for i = 1:size(X, 1)
-%	X_norm(i, :) = X_norm(i, :) / sigma;
-%end;
 
 
 

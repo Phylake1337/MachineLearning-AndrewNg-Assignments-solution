@@ -12,10 +12,11 @@ J = 0;
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
+Hyponsis = X*theta ; 
+squError = (Hyponsis - y); 
+SE = squError .^2;
+J = sum(SE)/(2*m) 
 
-h = X*theta;
-err = (h - y) .^ 2;
-J = sum(err) / (2 * m);
 
 
 

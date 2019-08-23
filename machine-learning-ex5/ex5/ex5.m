@@ -1,3 +1,4 @@
+
 %% Machine Learning Online Class
 %  Exercise 5 | Regularized Linear Regression and Bias-Variance
 %
@@ -90,8 +91,6 @@ plot(X, y, 'rx', 'MarkerSize', 10, 'LineWidth', 1.5);
 xlabel('Change in water level (x)');
 ylabel('Water flowing out of the dam (y)');
 hold on;
-plot(Xval, yval, 'bo', 'MarkerSize', 5, 'LineWidth', 1.5);
-plot(Xtest, ytest, 'go', 'MarkerSize', 5, 'LineWidth', 1.5);
 plot(X, [ones(m, 1) X]*theta, '--', 'LineWidth', 2)
 hold off;
 
@@ -166,19 +165,13 @@ pause;
 %  lambda to see how the fit and learning curve change.
 %
 
-lambda = 3;
+lambda = .7;
 [theta] = trainLinearReg(X_poly, y, lambda);
 
 % Plot training data and fit
 figure(1);
 plot(X, y, 'rx', 'MarkerSize', 10, 'LineWidth', 1.5);
 plotFit(min(X), max(X), mu, sigma, theta, p);
-
-hold on;
-plot(Xval, yval, 'bo', 'MarkerSize', 5, 'LineWidth', 1.5); % edited
-plot(Xtest, ytest, 'go', 'MarkerSize', 5, 'LineWidth', 1.5);
-hold off;
-
 xlabel('Change in water level (x)');
 ylabel('Water flowing out of the dam (y)');
 title (sprintf('Polynomial Regression Fit (lambda = %f)', lambda));
